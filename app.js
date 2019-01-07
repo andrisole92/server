@@ -15,13 +15,36 @@ const express_graphql = require('express-graphql');
 const {buildSchema} = require('graphql');
 
 const app = express();
+const http = require('http').createServer(app);
+// console.log(http);
+const io = require('socket.io').listen(http);
+app.set('io',io);
+
+console.log('sockets');
+io.on('connection', (socket) => {
+
+    // joining channels
+    // param list of channels to join
+    socket.on('join', (channels) => {
+        console.log('join');
+        console.log(channels);
+        channels.forEach((channel) => {
+            socket.join(channel);
+            const channelId = channel;
+            const m = {a:'whatever'};
+        });
+    });
+});
+
+
 
 const db = require('./db');
 
 app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Request-Method', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
+    res.setHeader('Access-Control-Allow-Headers', '*');
     next();
 });
 
@@ -62,7 +85,6 @@ app.use(function (err, req, res, next) {
 });
 
 
-module.exports = app;
 const redis = require("redis"),
     client = redis.createClient();
 
@@ -85,3 +107,4 @@ client.hkeys("hash key", function (err, replies) {
 });
 
 
+module.exports = {io,http};

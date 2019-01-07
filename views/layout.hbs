@@ -9,7 +9,7 @@
   </body>
   <script src='javascripts/socket.io.dev.js'></script>
   <script>
-      const socket = io('ws://localhost:4001');
+      const socket = io('ws://localhost:4000');
       socket.on('connect', function(){
           console.log('connected');
           window['connected'] = true;

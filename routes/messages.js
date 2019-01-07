@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router({mergeParams: true});
 const Message = require('../models/message');
-const io = require('../io');
 router.get('/', async (req, res, next) => {
     const {userId, channelId} = req.params;
     try {
@@ -17,6 +16,7 @@ router.post('/', async (req, res, next) => {
     const message = new Message({...req.body, from: userId, channelId});
     try {
         await message.save();
+        let io = req.app.get('io');
         io.to(channelId).emit('message', {channelId, message});
         res.status(200).send({message});
     } catch (err) {

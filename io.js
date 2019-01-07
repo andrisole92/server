@@ -1,8 +1,10 @@
-const io = require('socket.io')(4001);
+const http = require('./app');
+console.log(http);
+const io = require('socket.io').listen(http);
 
 const channels = io.of('/channels');
 const messages = io.of('/messages');
-console.log('sockets')
+console.log('sockets');
 io.on('connection', (socket) => {
 
     // joining channels

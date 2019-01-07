@@ -1,4 +1,5 @@
-const app = require('../app');
+const {http} = require('../app');
+const {io} = require('../app');
+// console.log(io);
 
-
-app.listen(4000, () => console.log('Express GraphQL Server Now Running On localhost:4000/graphql'));
+http.listen(4000, () => console.log('Express GraphQL Server Now Running On localhost:4000/graphql'));
