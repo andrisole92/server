@@ -18,6 +18,7 @@ privateChannelValidator = (value) => {
 
 const channelSchema = new mongoose.Schema({
     _private: {type: Boolean, default: false},
+    _direct: {type: Boolean, default: false},
     name: {type: 'String', default: ''},
     owner: {type: ObjectId, ref: 'User'},
     users: [{
